@@ -1,2 +1,2 @@
 from ..abstract import Expression, Obtainment
-from ..reference import Alias
+from ..reference import Alias, Parameter

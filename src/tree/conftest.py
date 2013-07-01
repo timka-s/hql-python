@@ -59,6 +59,11 @@ def alias():
 
 
 @pytest.fixture(scope='module')
+def parameter():
+    return tree.Parameter('parameter_name')
+
+
+@pytest.fixture(scope='module')
 def alias_assignment(expression, alias):
     return tree.AliasAssignment(expression, alias)
 
@@ -121,3 +126,8 @@ def attribute(expression):
 @pytest.fixture(scope='module')
 def alias_value(alias):
     return tree.AliasValue(alias)
+
+
+@pytest.fixture(scope='module')
+def parameter_value(parameter):
+    return tree.ParameterValue(parameter)
