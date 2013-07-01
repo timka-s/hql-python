@@ -14,6 +14,11 @@ def node_set(node):
 
 
 @pytest.fixture(scope='module')
+def expression():
+    return tree.Expression._create(tuple())
+
+
+@pytest.fixture(scope='module')
 def predicate():
     return tree.Predicate._create(tuple())
 
@@ -31,6 +36,11 @@ def predicate_b():
 @pytest.fixture(scope='module')
 def predicate_c():
     return tree.Predicate._create('c')
+
+
+@pytest.fixture(scope='module')
+def obtainment():
+    return tree.Obtainment._create(tuple())
 
 
 @pytest.fixture(scope='module')
@@ -56,3 +66,13 @@ def bool_and(predicate_a, predicate_b):
 @pytest.fixture(scope='module')
 def bool_or(predicate_a, predicate_b):
     return tree.Or(predicate_a, predicate_b)
+
+
+@pytest.fixture(scope='module')
+def constant():
+    return tree.Constant('constant')
+
+
+@pytest.fixture(scope='module')
+def attribute(expression):
+    return tree.Attribute(expression, 'attribute_name')
