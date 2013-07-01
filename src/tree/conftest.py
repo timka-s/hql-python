@@ -68,6 +68,11 @@ def bool_or(predicate_a, predicate_b):
     return tree.Or(predicate_a, predicate_b)
 
 
+@pytest.fixture(scope='module', params=tree.Compare.__comparisons__)
+def compare(request, expression):
+    return tree.Compare(request.param, expression, expression)
+
+
 @pytest.fixture(scope='module')
 def constant():
     return tree.Constant('constant')
