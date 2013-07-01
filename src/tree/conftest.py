@@ -19,6 +19,16 @@ def expression():
 
 
 @pytest.fixture(scope='module')
+def reference():
+    return tree.Reference('reference_name')
+
+
+@pytest.fixture(scope='module')
+def definition():
+    return tree.Definition._create(tuple())
+
+
+@pytest.fixture(scope='module')
 def predicate():
     return tree.Predicate._create(tuple())
 
@@ -41,6 +51,21 @@ def predicate_c():
 @pytest.fixture(scope='module')
 def obtainment():
     return tree.Obtainment._create(tuple())
+
+
+@pytest.fixture(scope='module')
+def alias():
+    return tree.Alias('alias_name')
+
+
+@pytest.fixture(scope='module')
+def alias_assignment(expression, alias):
+    return tree.AliasAssignment(expression, alias)
+
+
+@pytest.fixture(scope='module')
+def iteration(alias, expression):
+    return tree.Iteration(alias, expression)
 
 
 @pytest.fixture(scope='module')
@@ -74,6 +99,16 @@ def compare(request, expression):
 
 
 @pytest.fixture(scope='module')
+def data_accordance(alias_assignment, predicate):
+    return tree.DataAccordance(alias_assignment, predicate)
+
+
+@pytest.fixture(scope='module', params=tree.SequenceAccordance.__quantifiers__)
+def sequence_accordance(request, iteration, predicate):
+    return tree.SequenceAccordance(request.param, iteration, predicate)
+
+
+@pytest.fixture(scope='module')
 def constant():
     return tree.Constant('constant')
 
@@ -81,3 +116,8 @@ def constant():
 @pytest.fixture(scope='module')
 def attribute(expression):
     return tree.Attribute(expression, 'attribute_name')
+
+
+@pytest.fixture(scope='module')
+def alias_value(alias):
+    return tree.AliasValue(alias)
