@@ -45,7 +45,7 @@ def test_constructor_error_base_not_tuple_subclass():
 
 
 def test_validate_fields_ok(base_fields):
-    MetaNode._validate_fields(base_fields, base_fields) is None
+    assert MetaNode._validate_fields(base_fields, base_fields) is None
 
 
 def test_validate_fields_error_bad_type(base_fields):
