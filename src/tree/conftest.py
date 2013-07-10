@@ -59,6 +59,11 @@ def statement():
 
 
 @pytest.fixture(scope='module')
+def query():
+    return tree.Query._create(tuple())
+
+
+@pytest.fixture(scope='module')
 def alias():
     return tree.Alias('alias_name')
 
@@ -69,6 +74,11 @@ def parameter():
 
 
 @pytest.fixture(scope='module')
+def field():
+    return tree.Field('field_name')
+
+
+@pytest.fixture(scope='module')
 def alias_assignment(expression, alias):
     return tree.AliasAssignment(expression, alias)
 
@@ -76,6 +86,11 @@ def alias_assignment(expression, alias):
 @pytest.fixture(scope='module')
 def iteration(alias, expression):
     return tree.Iteration(alias, expression)
+
+
+@pytest.fixture(scope='module')
+def field_assignment(field, expression):
+    return tree.FieldAssignment(field, expression)
 
 
 @pytest.fixture(scope='module')
@@ -146,3 +161,13 @@ def condition(predicate):
 @pytest.fixture(scope='module')
 def source(iteration):
     return tree.Source(iteration)
+
+
+@pytest.fixture(scope='module')
+def declaration(field_assignment):
+    return tree.Declaration(field_assignment)
+
+
+@pytest.fixture(scope='module')
+def select(declaration, source, condition):
+    return tree.Select(declaration, source, condition)
