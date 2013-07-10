@@ -54,6 +54,11 @@ def obtainment():
 
 
 @pytest.fixture(scope='module')
+def statement():
+    return tree.Statement._create(tuple())
+
+
+@pytest.fixture(scope='module')
 def alias():
     return tree.Alias('alias_name')
 
@@ -131,3 +136,13 @@ def alias_value(alias):
 @pytest.fixture(scope='module')
 def parameter_value(parameter):
     return tree.ParameterValue(parameter)
+
+
+@pytest.fixture(scope='module')
+def condition(predicate):
+    return tree.Condition(predicate)
+
+
+@pytest.fixture(scope='module')
+def source(iteration):
+    return tree.Source(iteration)
