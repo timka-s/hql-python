@@ -10,7 +10,3 @@ class Condition(Statement):
             raise TypeError
 
         return cls._make(predicate)
-
-
-    def __str__(self):
-        return 'IF\n\t%s\n' % str(self.predicate).replace('\n', '\n\t')

@@ -30,10 +30,3 @@ class NodeSet(Node):
             repr(node).replace('\n', '\n    ')
             for node in self
         )
-
-
-    def __str__(self):
-        return '\n'.join(
-            str(node).replace('\n', '\n    ')
-            for node in self
-        )

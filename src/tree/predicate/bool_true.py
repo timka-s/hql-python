@@ -6,8 +6,5 @@ class TRUE(Predicate):
     def _make(cls):
         return cls._instance
 
-    def __str__(self):
-        return 'TRUE'
-
 
 TRUE._instance = TRUE._create(tuple())

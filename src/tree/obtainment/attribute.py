@@ -13,7 +13,3 @@ class Attribute(Obtainment):
             raise TypeError
 
         return cls._make(expression, name)
-
-
-    def __str__(self):
-        return '%s.%s' % (self.expression, self.name)

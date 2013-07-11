@@ -17,8 +17,3 @@ class SequenceAccordance(Predicate):
             raise TypeError
 
         return cls._make(quantifier, iteration, predicate)
-
-
-    def __str__(self):
-        return '%s %s IS (%s)' % (
-            self.quantifier.upper(), self.iteration, self.predicate)

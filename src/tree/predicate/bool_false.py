@@ -6,8 +6,5 @@ class FALSE(Predicate):
     def _make(cls):
         return cls._instance
 
-    def __str__(self):
-        return 'FALSE'
-
 
 FALSE._instance = FALSE._create(tuple())

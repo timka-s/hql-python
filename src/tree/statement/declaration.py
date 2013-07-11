@@ -14,8 +14,3 @@ class Declaration(Statement):
             raise ValueError
 
         return cls._make(field_assignment_set)
-
-
-    def __str__(self):
-        return 'GET\n\t%s\n' % \
-            str(self.field_assignment_set).replace('\n', '\n\t')

@@ -13,7 +13,3 @@ class Iteration(Definition):
             raise TypeError
 
         return cls._make(alias, expression)
-
-
-    def __str__(self):
-        return '%s IN %s' % (self.alias, self.expression)

@@ -13,7 +13,3 @@ class AliasAssignment(Definition):
             raise TypeError
 
         return cls._make(expression, alias)
-
-
-    def __str__(self):
-        return '%s AS %s' % (self.expression, self.alias)

@@ -13,7 +13,3 @@ class FieldAssignment(Definition):
             raise TypeError
 
         return cls._make(field, expression)
-
-
-    def __str__(self):
-        return '%s = %s' % (self.field, self.expression)

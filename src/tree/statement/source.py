@@ -13,7 +13,3 @@ class Source(Statement):
             raise ValueError
 
         return cls._make(iteration_set)
-
-
-    def __str__(self):
-        return 'USE\n\t%s\n' % str(self.iteration_set).replace('\n', '\n\t')

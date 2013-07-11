@@ -17,8 +17,3 @@ class Compare(Predicate):
             raise TypeError
 
         return cls._make(comparison, left, right)
-
-
-    def __str__(self):
-        return '%s %s %s' % (
-            str(self.left), self.comparison, str(self.right))

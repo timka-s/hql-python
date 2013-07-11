@@ -16,16 +16,3 @@ class Select(Query):
             raise TypeError
 
         return cls._make(declaration, source, condition)
-
-
-    def __str__(self):
-        def prepare():
-            yield str(self.declaration)
-
-            if self.source:
-                yield str(self.source)
-
-            if self.condition:
-                yield str(self.condition)
-
-        return ''.join(prepare())

@@ -3,7 +3,6 @@ from .__external__ import NodeSet, Predicate
 
 class Complex(Predicate):
     __fields__ = ('predicate_set',)
-    __str_separator__ = ' ?? '
 
 
     @classmethod
@@ -26,8 +25,3 @@ class Complex(Predicate):
 
     def __new__(cls, *predicate_set):
         return cls._make(NodeSet(Predicate, predicate_set))
-
-
-    def __str__(self):
-        separator = '\n\t%s\t' % self.__str_separator__
-        return '(\n\t\t' + separator.join(map(str, self.predicate_set)) + '\n)'

@@ -13,7 +13,3 @@ class DataAccordance(Predicate):
             raise TypeError
 
         return cls._make(alias_assignment, predicate)
-
-
-    def __str__(self):
-        return '%s IS (%s)' % (self.alias_assignment, self.predicate)

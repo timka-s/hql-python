@@ -10,7 +10,3 @@ class AliasValue(Obtainment):
             raise TypeError
 
         return cls._make(alias)
-
-
-    def __str__(self):
-        return str(self.alias)

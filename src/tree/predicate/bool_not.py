@@ -18,7 +18,3 @@ class Not(Predicate):
             raise TypeError
 
         return cls._make(predicate)
-
-
-    def __str__(self):
-        return 'not %s' % str(self.predicate)

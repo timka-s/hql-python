@@ -10,7 +10,3 @@ class ParameterValue(Obtainment):
             raise TypeError
 
         return cls._make(parameter)
-
-
-    def __str__(self):
-        return str(self.parameter)

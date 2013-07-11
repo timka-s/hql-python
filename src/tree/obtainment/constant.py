@@ -14,7 +14,3 @@ class Constant(Expression):
             return hash(self.data)
 
         return id(self)
-
-
-    def __str__(self):
-        return '`%s`' % str(self.data)
