@@ -10,8 +10,9 @@ def completeness_skip_set():
         'Node', 'NodeSet',
         'Expression', 'Reference', 'Definition', 'Obtainment', 'Predicate',
             'Statement', 'Query',
-        'Alias', 'Parameter', 'Field',
-        'AliasAssignment', 'Iteration', 'FieldAssignment'
+        'Alias', 'Parameter', 'Field', 'Kwarg',
+        'AliasAssignment', 'Iteration', 'FieldAssignment',
+            'KwargAssignment',
     ])
 
 
@@ -27,7 +28,22 @@ def completeness_env():
                     ),
                     'attr_one'
                 )
-            )
+            ),
+            tree.FieldAssignment(
+                tree.Field('field_two'),
+                tree.FunctionCall(
+                    'bool',
+                    tree.KwargAssignment(
+                        tree.Kwarg('x'),
+                        tree.Attribute(
+                            tree.AliasValue(
+                                tree.Alias('items__row')
+                            ),
+                            'attr_two'
+                        )
+                    )
+                )
+            ),
         ),
         tree.Source(
             tree.Iteration(
@@ -88,6 +104,7 @@ def completeness_env():
         'items': [
             SN({
                 'attr_one': 'some_text',
+                'attr_two': 'bool()==True',
                 'attr_seq': [
                     SN({'text': 'items.attr_seq.text.value'}),
                     SN({'text': 'items.attr_seq.text.value'})
@@ -102,7 +119,7 @@ def completeness_env():
     }
 
     result = [
-        SN({'field_one': 'some_text'})
+        SN({'field_one': 'some_text', 'field_two': True})
     ]
 
     return node, parameters, result
@@ -137,3 +154,8 @@ def test_visit_SequenceAccordance_error_unknown_quantifier():
 def test_visit_Source_error_many_iterators():
     with pytest.raises(NotImplementedError):
         PythonLambda(tree.Source._create([[..., ...]]))
+
+
+def test_visit_FunctionCall_error_unknown_name():
+    with pytest.raises(NotImplementedError):
+        PythonLambda(tree.FunctionCall('not_exists_function'))

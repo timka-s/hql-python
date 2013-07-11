@@ -15,6 +15,10 @@ precedence = (
     ('right', ')', '(')
 )
 
+def p_empty(p):
+    'empty : '
+    pass
+
 def p_reference_alias(p):
     'reference_alias : "@" NAME'
     p[0] = tree.Alias(p[2])
@@ -27,6 +31,10 @@ def p_reference_field(p):
     'reference_field : NAME'
     p[0] = tree.Field(p[1])
 
+def p_reference_kwarg(p):
+    'reference_kwarg : NAME'
+    p[0] = tree.Kwarg(p[1])
+
 def p_definition_alias_assignment(p):
     'alias_assignment : expression AS reference_alias'
     p[0] = tree.AliasAssignment(p[1], p[3])
@@ -38,6 +46,10 @@ def p_definition_iteration(p):
 def p_definition_field_assignment(p):
     'field_assignment : reference_field "=" expression'
     p[0] = tree.FieldAssignment(p[1], p[3])
+
+def p_definition_kwarg_assignment(p):
+    'kwarg_assignment : reference_kwarg "=" expression'
+    p[0] = tree.KwargAssignment(p[1], p[3])
 
 def p_expression_with_round_brackets(p):
     'expression : "(" expression ")"'
@@ -66,6 +78,28 @@ def p_obtainment_alias_value(p):
 def p_obtainment_parameter_value(p):
     'expression : reference_parameter'
     p[0] = tree.ParameterValue(p[1])
+
+def p_obtainment_kwarg_assignment_set(p):
+    '''
+        kwarg_assignment_set : kwarg_assignment
+        kwarg_assignment_set : kwarg_assignment ',' kwarg_assignment_set
+    '''
+
+    p[0] = [p[1]]
+
+    if len(p) == 4:
+        p[0] += p[3]
+
+def p_obtainment_function_call(p):
+    '''
+        expression : NAME "(" kwarg_assignment_set ")"
+        expression : NAME "(" empty ")"
+    '''
+
+    if not p[3]:
+        p[3] = ()
+
+    p[0] = tree.FunctionCall(p[1], *p[3])
 
 def p_predicate_true(p):
     'predicate : TRUE'
@@ -158,9 +192,13 @@ def p_query_select_query_full(p):
     p[0] = tree.Select(p[1], p[2], p[3])
 
 def p_error(t):
+    print('\nInput string:')
     print(t.lexer.lexdata)
+
     print('\nSyntax error at line %s char %s:' % (t.lineno, t.lexpos+1))
     print(t.lexer.lexdata.splitlines()[t.lineno - 1])
-    print(' ' * (t.lexpos-1), '^')
+
+    start_line_pos = t.lexer.lexdata.rfind('\n', 0, t.lexpos)
+    print(' ' * (t.lexpos-start_line_pos-2), '^')
 
     raise SyntaxError

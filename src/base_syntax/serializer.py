@@ -14,6 +14,10 @@ class Serializer(Visitor):
         return '%s' % str(node.name)
 
 
+    def visit_Kwarg(self, node):
+        return '%s' % str(node.name)
+
+
     def visit_AliasAssignment(self, node):
         expression = self.visit(node.expression)
         alias = self.visit(node.alias)
@@ -32,6 +36,12 @@ class Serializer(Visitor):
         field = self.visit(node.field)
         expression = self.visit(node.expression)
         return '%s = %s' % (field, expression)
+
+
+    def visit_KwargAssignment(self, node):
+        kwarg = self.visit(node.kwarg)
+        expression = self.visit(node.expression)
+        return '%s = %s' % (kwarg, expression)
 
 
     def visit_Constant(self, node):
@@ -57,6 +67,15 @@ class Serializer(Visitor):
 
     def visit_ParameterValue(self, node):
         return self.visit(node.parameter)
+
+
+    def visit_FunctionCall(self, node):
+        kwarg_assignment_set = ', '.join(
+            self.visit(kwarg_assignment)
+            for kwarg_assignment in node.kwarg_assignment_set
+        )
+
+        return '%s(%s)' % (node.name, kwarg_assignment_set)
 
 
     def visit_TRUE(self, node):

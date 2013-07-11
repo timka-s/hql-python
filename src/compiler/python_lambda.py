@@ -39,6 +39,29 @@ class PythonLambda(Visitor):
         return lambda parameter_map, alias_map: parameter_map[key]
 
 
+    def function_bool(self, kwarg_assignment_set):
+        output = {
+            kwarg_assignment.kwarg.name:
+                self.visit(kwarg_assignment.expression)
+            for kwarg_assignment in kwarg_assignment_set
+        }
+
+        return lambda parameter_map, alias_map: \
+            bool(**{
+                key: data_output(parameter_map, alias_map)
+                for key, data_output in output.items()
+            })
+
+
+    def visit_FunctionCall(self, node):
+        method_name = 'function_%s' % node.name
+
+        if not hasattr(self, method_name):
+            raise NotImplementedError
+
+        return getattr(self, method_name)(node.kwarg_assignment_set)
+
+
     def visit_TRUE(self, node):
         return lambda parameter_map, alias_map: True
 

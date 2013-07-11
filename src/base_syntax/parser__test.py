@@ -34,7 +34,10 @@ def completeness_string():
     'GET field_one = 2',
     'GET field_one = @item USE @item IN %seq',
     'GET field_one = %seq IF ALL @item IN %seq IS @item > 1',
-    'GET field_one = @item USE @item IN %seq IF @item > 1'
+    'GET field_one = @item USE @item IN %seq IF @item > 1',
+    'GET field_one = eq(a=2,b=3)',
+    'GET field_one = abs(value=2)',
+    'GET field_one = rand()'
 ])
 def input_select_string(request):
     return request.param

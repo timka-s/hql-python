@@ -13,6 +13,12 @@ def test_constructor_ok(instance):
     assert isinstance(instance, NodeSet)
 
 
+def test_constructor_ok_node_set_empty():
+    instance = NodeSet(Node, [], False)
+
+    assert isinstance(instance, NodeSet)
+
+
 def test_constructor_error_inner_cls(node):
     with pytest.raises(TypeError):
         NodeSet(str, [node])

@@ -79,6 +79,11 @@ def field():
 
 
 @pytest.fixture(scope='module')
+def kwarg():
+    return tree.Kwarg('kwarg_name')
+
+
+@pytest.fixture(scope='module')
 def alias_assignment(expression, alias):
     return tree.AliasAssignment(expression, alias)
 
@@ -91,6 +96,11 @@ def iteration(alias, expression):
 @pytest.fixture(scope='module')
 def field_assignment(field, expression):
     return tree.FieldAssignment(field, expression)
+
+
+@pytest.fixture(scope='module')
+def kwarg_assignment(kwarg, expression):
+    return tree.KwargAssignment(kwarg, expression)
 
 
 @pytest.fixture(scope='module')
@@ -151,6 +161,11 @@ def alias_value(alias):
 @pytest.fixture(scope='module')
 def parameter_value(parameter):
     return tree.ParameterValue(parameter)
+
+
+@pytest.fixture(scope='module')
+def function_call(kwarg_assignment):
+    return tree.FunctionCall('func_name', kwarg_assignment)
 
 
 @pytest.fixture(scope='module')

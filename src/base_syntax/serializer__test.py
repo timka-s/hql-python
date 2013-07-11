@@ -30,8 +30,14 @@ def completeness_node():
         tree.Source(
             tree.Iteration(
                 tree.Alias('items__row'),
-                tree.ParameterValue(
-                    tree.Parameter('items')
+                tree.FunctionCall(
+                    'ds',
+                    tree.KwargAssignment(
+                        tree.Kwarg('name'),
+                        tree.ParameterValue(
+                            tree.Parameter('ds_name')
+                        )
+                    )
                 )
             )
         ),

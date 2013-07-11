@@ -43,7 +43,7 @@ tokens = (
     'NAME', 'INT_NUMBER', 'STRING',
 ) + tuple(set(reserved.values()))
 
-literals = '(){}@%.='
+literals = '(){}@%.=,'
 
 t_ignore = ' \t'
 
@@ -54,6 +54,8 @@ def t_newline(t):
 def t_error(t):
     print('\nSkipped line %s char %s:' % (t.lineno, t.lexpos+1))
     print(t.lexer.lexdata.splitlines()[t.lineno - 1])
-    print(' ' * (t.lexpos-1), '^')
+
+    start_line_pos = t.lexer.lexdata.rfind('\n', 0, t.lexpos)
+    print(' ' * (t.lexpos-start_line_pos-2), '^')
 
     t.lexer.skip(1)
