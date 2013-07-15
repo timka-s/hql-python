@@ -137,10 +137,6 @@ def p_predicate_with_round_brackets(p):
     'predicate : "(" predicate ")"'
     p[0] = p[2]
 
-def p_predicate_as_expression(p):
-    'expression : predicate'
-    p[0] = p[1]
-
 def p_statement_condition(p):
     'condition : IF predicate'
     p[0] = tree.Condition(p[2])

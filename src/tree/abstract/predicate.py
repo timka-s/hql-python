@@ -1,5 +1,5 @@
-from .expression import Expression
+from .__external__ import Node
 
 
-class Predicate(Expression):
+class Predicate(Node):
     pass

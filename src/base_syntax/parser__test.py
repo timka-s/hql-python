@@ -22,7 +22,7 @@ def completeness_string():
             @row_a.parent_id == @row_b.id
             AND ALL @item IN @row.seq IS (
                 @item.text AS @text IS (
-                        FALSE || (TRUE != (123))
+                        FALSE || (321 != (123))
                      && NOT FALSE
                      && (@text == "input_seq.seq.text.value")
                 )

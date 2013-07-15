@@ -68,7 +68,7 @@ def completeness_node():
                             tree.FALSE(),
                             tree.Compare(
                                 '!=',
-                                tree.TRUE(),
+                                tree.Constant(321),
                                 tree.Constant(123)
                             ),
                         ),
