@@ -7,8 +7,9 @@ from .reference import Alias, Parameter, Field, Kwarg
 from .definition import \
     AliasAssignment, Iteration, FieldAssignment, KwargAssignment
 from .obtainment import \
-    Constant, Attribute, AliasValue, ParameterValue, FunctionCall
+    Constant, Attribute, AliasValue, ParameterValue, FunctionCall, Verity
 from .predicate import \
-    TRUE, FALSE, Not, And, Or, Compare, DataAccordance, SequenceAccordance
+    TRUE, FALSE, Not, And, Or, Compare, DataAccordance, SequenceAccordance, \
+    CheckValue
 from .statement import Condition, Source, Declaration
 from .query import Select

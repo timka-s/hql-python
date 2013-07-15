@@ -144,6 +144,11 @@ def sequence_accordance(request, iteration, predicate):
 
 
 @pytest.fixture(scope='module')
+def check_value(expression):
+    return tree.CheckValue(expression)
+
+
+@pytest.fixture(scope='module')
 def constant():
     return tree.Constant('constant')
 
@@ -166,6 +171,11 @@ def parameter_value(parameter):
 @pytest.fixture(scope='module')
 def function_call(kwarg_assignment):
     return tree.FunctionCall('func_name', kwarg_assignment)
+
+
+@pytest.fixture(scope='module')
+def verity(predicate):
+    return tree.Verity(predicate)
 
 
 @pytest.fixture(scope='module')

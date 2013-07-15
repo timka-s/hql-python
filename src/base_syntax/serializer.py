@@ -35,12 +35,14 @@ class Serializer(Visitor):
     def visit_FieldAssignment(self, node):
         field = self.visit(node.field)
         expression = self.visit(node.expression)
+
         return '%s = %s' % (field, expression)
 
 
     def visit_KwargAssignment(self, node):
         kwarg = self.visit(node.kwarg)
         expression = self.visit(node.expression)
+
         return '%s = %s' % (kwarg, expression)
 
 
@@ -76,6 +78,12 @@ class Serializer(Visitor):
         )
 
         return '%s(%s)' % (node.name, kwarg_assignment_set)
+
+
+    def visit_Verity(self, node):
+        predicate = self.visit(node.predicate)
+
+        return '{%s}' % (predicate)
 
 
     def visit_TRUE(self, node):
@@ -127,6 +135,12 @@ class Serializer(Visitor):
         predicate = self.visit(node.predicate)
 
         return '(%s %s IS %s)' % (node.quantifier.upper(), iteration, predicate)
+
+
+    def visit_CheckValue(self, node):
+        expression = self.visit(node.expression)
+
+        return '{%s}' % (expression)
 
 
     def visit_Condition(self, node):

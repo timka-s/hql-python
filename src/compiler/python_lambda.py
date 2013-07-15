@@ -6,7 +6,7 @@ from .__external__ import Visitor
 class PythonLambda(Visitor):
     class Record():
         def __init__(self, ns):
-            self.__dict__.update(ns)
+            self.__dict__.update(dict(sorted(ns.items())))
 
 
         def __repr__(self):
@@ -60,6 +60,13 @@ class PythonLambda(Visitor):
             raise NotImplementedError
 
         return getattr(self, method_name)(node.kwarg_assignment_set)
+
+
+    def visit_Verity(self, node):
+        output = self.visit(node.predicate)
+
+        return lambda parameter_map, alias_map: \
+            output(parameter_map, alias_map)
 
 
     def visit_TRUE(self, node):
@@ -155,6 +162,13 @@ class PythonLambda(Visitor):
                     dict(alias_map, **{key: data})
                 ) for data in data_output(parameter_map, alias_map)
             )
+
+
+    def visit_CheckValue(self, node):
+        output = self.visit(node.expression)
+
+        return lambda parameter_map, alias_map: \
+            bool(output(parameter_map, alias_map))
 
 
     def visit_Condition(self, node):

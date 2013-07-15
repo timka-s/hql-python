@@ -44,6 +44,12 @@ def completeness_env():
                     )
                 )
             ),
+            tree.FieldAssignment(
+                tree.Field('field_three'),
+                tree.Verity(
+                    tree.TRUE()
+                )
+            ),
         ),
         tree.Source(
             tree.Iteration(
@@ -76,6 +82,9 @@ def completeness_env():
                         tree.Alias('items__row__attr_seq__text')
                     ),
                     tree.And(
+                        tree.CheckValue(
+                            tree.Constant('some_string')
+                        ),
                         tree.Or(
                             tree.FALSE(),
                             tree.Compare(
@@ -119,7 +128,7 @@ def completeness_env():
     }
 
     result = [
-        SN({'field_one': 'some_text', 'field_two': True})
+        SN({'field_one': 'some_text', 'field_two': True, 'field_three': True})
     ]
 
     return node, parameters, result

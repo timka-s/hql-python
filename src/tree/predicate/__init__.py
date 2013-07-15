@@ -6,3 +6,4 @@ from .bool_or import Or
 from .compare import Compare
 from .data_accordance import DataAccordance
 from .sequence_accordance import SequenceAccordance
+from .check_value import CheckValue

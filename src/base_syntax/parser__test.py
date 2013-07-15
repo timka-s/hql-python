@@ -15,6 +15,7 @@ def completeness_string():
         GET
             field_one = @row_a.attr
             field_two = @row_b.attr
+            field_three = {TRUE}
         USE
             @row_a IN %input_seq_a
             @row_b IN %input_seq_b
@@ -23,6 +24,7 @@ def completeness_string():
             AND ALL @item IN @row.seq IS (
                 @item.text AS @text IS (
                         FALSE || (321 != (123))
+                     && {"not_empty_string"}
                      && NOT FALSE
                      && (@text == "input_seq.seq.text.value")
                 )

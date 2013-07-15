@@ -25,7 +25,13 @@ def completeness_node():
                     ),
                     'attr_one'
                 )
-            )
+            ),
+            tree.FieldAssignment(
+                tree.Field('field_two'),
+                tree.Verity(
+                    tree.TRUE()
+                )
+            ),
         ),
         tree.Source(
             tree.Iteration(
@@ -64,6 +70,9 @@ def completeness_node():
                         tree.Alias('items__row__attr_seq__text')
                     ),
                     tree.And(
+                        tree.CheckValue(
+                            tree.Constant(321)
+                        ),
                         tree.Or(
                             tree.FALSE(),
                             tree.Compare(

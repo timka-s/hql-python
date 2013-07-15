@@ -101,6 +101,10 @@ def p_obtainment_function_call(p):
 
     p[0] = tree.FunctionCall(p[1], *p[3])
 
+def p_expression_verity(p):
+    'expression : "{" predicate "}"'
+    p[0] = tree.Verity(p[2])
+
 def p_predicate_true(p):
     'predicate : TRUE'
     p[0] = tree.TRUE()
@@ -132,6 +136,10 @@ def p_predicate_data_accordance(p):
 def p_predicate_sequence_accordance(p):
     'predicate : QUANTIFIER iteration IS predicate'
     p[0] = tree.SequenceAccordance(p[1].lower(), p[2], p[4])
+
+def p_predicate_check_value(p):
+    'predicate : "{" expression "}"'
+    p[0] = tree.CheckValue(p[2])
 
 def p_predicate_with_round_brackets(p):
     'predicate : "(" predicate ")"'
