@@ -19,12 +19,43 @@ def completeness_node():
         tree.Declaration(
             tree.FieldAssignment(
                 tree.Field('field_one'),
-                tree.Attribute(
-                    tree.AliasValue(
-                        tree.Alias('items__row')
+                tree.CaseValue(
+                    tree.Constant('test_case'),
+                    tree.Constant('default_result'),
+                    tree.WhenAssignment(
+                        tree.Attribute(
+                            tree.AliasValue(
+                                tree.Alias('items__row')
+                            ),
+                            'attr_one'
+                        ),
+                        tree.Constant('eq to attr_one result')
                     ),
-                    'attr_one'
-                )
+                ),
+            ),
+            tree.FieldAssignment(
+                tree.Field('field_two'),
+                tree.IfValue(
+                    tree.Constant(0),
+                    tree.IfAssignment(
+                        tree.Compare(
+                            '==',
+                            tree.ParameterValue(
+                                tree.Parameter('some_string')
+                            ),
+                            tree.Constant('some_string')
+                        ),
+                        tree.Constant(1)
+                    ),
+                    tree.IfAssignment(
+                        tree.Compare(
+                            '>',
+                            tree.Constant(5),
+                            tree.Constant(1)
+                        ),
+                        tree.Constant(2)
+                    ),
+                ),
             )
         ),
         tree.Source(
@@ -66,11 +97,7 @@ def completeness_node():
                     tree.And(
                         tree.Or(
                             tree.FALSE(),
-                            tree.Compare(
-                                '!=',
-                                tree.TRUE(),
-                                tree.Constant(123)
-                            ),
+                            tree.TRUE(),
                         ),
                         tree.Not(tree.FALSE()),
                         tree.Compare(

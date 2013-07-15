@@ -35,12 +35,14 @@ class Serializer(Visitor):
     def visit_FieldAssignment(self, node):
         field = self.visit(node.field)
         expression = self.visit(node.expression)
+
         return '%s = %s' % (field, expression)
 
 
     def visit_KwargAssignment(self, node):
         kwarg = self.visit(node.kwarg)
         expression = self.visit(node.expression)
+
         return '%s = %s' % (kwarg, expression)
 
 
@@ -53,6 +55,20 @@ class Serializer(Visitor):
             data = str(data)
 
         return data
+
+
+    def visit_IfAssignment(self, node):
+        predicate = self.visit(node.predicate)
+        expression = self.visit(node.expression)
+
+        return 'IF %s THEN %s' % (predicate, expression)
+
+
+    def visit_WhenAssignment(self, node):
+        pattern = self.visit(node.pattern)
+        result = self.visit(node.result)
+
+        return 'WHEN %s THEN %s' % (pattern, result)
 
 
     def visit_Attribute(self, node):
@@ -76,6 +92,28 @@ class Serializer(Visitor):
         )
 
         return '%s(%s)' % (node.name, kwarg_assignment_set)
+
+
+    def visit_IfValue(self, node):
+        default = self.visit(node.default)
+        if_assignment_set = '\nEL'.join(
+            self.visit(if_assignment).replace('\n', '\n    ')
+            for if_assignment in node.if_assignment_set
+        )
+
+        return '%s\nELSE %s\nEND' % (if_assignment_set, default)
+
+
+    def visit_CaseValue(self, node):
+        expression = self.visit(node.expression)
+        default = self.visit(node.default)
+        when_assignment_set = '\n    '.join(
+            self.visit(when_assignment).replace('\n', '\n        ')
+            for when_assignment in node.when_assignment_set
+        )
+
+        return 'CASE %s\n    %s\n    DEFAULT %s\nEND' % (
+            expression, when_assignment_set, default)
 
 
     def visit_TRUE(self, node):
