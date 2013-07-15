@@ -19,36 +19,36 @@ def p_empty(p):
     'empty : '
     pass
 
-def p_reference_alias(p):
-    'reference_alias : "@" NAME'
+def p_identifier_alias(p):
+    'identifier_alias : "@" NAME'
     p[0] = tree.Alias(p[2])
 
-def p_reference_parameter(p):
-    'reference_parameter : "%" NAME'
+def p_identifier_parameter(p):
+    'identifier_parameter : "%" NAME'
     p[0] = tree.Parameter(p[2])
 
-def p_reference_field(p):
-    'reference_field : NAME'
+def p_identifier_field(p):
+    'identifier_field : NAME'
     p[0] = tree.Field(p[1])
 
-def p_reference_kwarg(p):
-    'reference_kwarg : NAME'
+def p_identifier_kwarg(p):
+    'identifier_kwarg : NAME'
     p[0] = tree.Kwarg(p[1])
 
 def p_definition_alias_assignment(p):
-    'alias_assignment : expression AS reference_alias'
+    'alias_assignment : expression AS identifier_alias'
     p[0] = tree.AliasAssignment(p[1], p[3])
 
 def p_definition_iteration(p):
-    'iteration : reference_alias IN expression'
+    'iteration : identifier_alias IN expression'
     p[0] = tree.Iteration(p[1], p[3])
 
 def p_definition_field_assignment(p):
-    'field_assignment : reference_field "=" expression'
+    'field_assignment : identifier_field "=" expression'
     p[0] = tree.FieldAssignment(p[1], p[3])
 
 def p_definition_kwarg_assignment(p):
-    'kwarg_assignment : reference_kwarg "=" expression'
+    'kwarg_assignment : identifier_kwarg "=" expression'
     p[0] = tree.KwargAssignment(p[1], p[3])
 
 def p_expression_with_round_brackets(p):
@@ -72,11 +72,11 @@ def p_expression_attribute(p):
     p[0] = tree.Attribute(p[1], p[3])
 
 def p_expression_alias_value(p):
-    'expression : reference_alias'
+    'expression : identifier_alias'
     p[0] = tree.AliasValue(p[1])
 
 def p_expression_parameter_value(p):
-    'expression : reference_parameter'
+    'expression : identifier_parameter'
     p[0] = tree.ParameterValue(p[1])
 
 def p_expression_kwarg_assignment_set(p):

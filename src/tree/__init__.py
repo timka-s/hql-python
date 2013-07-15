@@ -2,8 +2,8 @@ from .meta_node import MetaNode
 from .node import Node
 from .node_set import NodeSet
 from .abstract import \
-    Reference, Definition, Expression, Predicate, Statement, Query
-from .reference import Alias, Parameter, Field, Kwarg
+    Identifier, Definition, Expression, Predicate, Statement, Query
+from .identifier import Alias, Parameter, Field, Kwarg
 from .definition import \
     AliasAssignment, Iteration, FieldAssignment, KwargAssignment
 from .expression import \

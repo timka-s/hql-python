@@ -1,20 +1,20 @@
 import pytest
 
-from .reference import Reference
+from .identifier import Identifier
 
 
 @pytest.fixture(scope='module')
-def instance(reference):
-    return reference
+def instance(identifier):
+    return identifier
 
 
 def test_constructor_ok(instance):
-    assert isinstance(instance, Reference)
+    assert isinstance(instance, Identifier)
 
 
 def test_constructor_error_name():
     with pytest.raises(TypeError):
-        Reference(...)
+        Identifier(...)
 
 
 def test_str(instance):

@@ -8,7 +8,7 @@ from .serializer import Serializer
 def completeness_skip_set():
     return frozenset([
         'Node', 'NodeSet',
-        'Reference', 'Definition', 'Expression', 'Predicate',
+        'Identifier', 'Definition', 'Expression', 'Predicate',
             'Statement', 'Query',
     ])
 

@@ -1,7 +1,7 @@
 from .__external__ import Node
 
 
-class Reference(Node):
+class Identifier(Node):
     __fields__ = ('name', )
 
 

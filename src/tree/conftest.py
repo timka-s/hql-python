@@ -14,8 +14,8 @@ def node_set(node):
 
 
 @pytest.fixture(scope='module')
-def reference():
-    return tree.Reference('reference_name')
+def identifier():
+    return tree.Identifier('reference_name')
 
 
 @pytest.fixture(scope='module')

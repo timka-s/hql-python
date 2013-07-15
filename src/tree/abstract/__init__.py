@@ -1,4 +1,4 @@
-from .reference import Reference
+from .identifier import Identifier
 from .definition import Definition
 from .expression import Expression
 from .predicate import Predicate
