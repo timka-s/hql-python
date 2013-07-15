@@ -55,31 +55,31 @@ def p_expression_with_round_brackets(p):
     'expression : "(" expression ")"'
     p[0] = p[2]
 
-def p_obtainment_constant_int(p):
+def p_expression_constant_int(p):
     'constant : INT_NUMBER'
     p[0] = tree.Constant(p[1])
 
-def p_obtainment_constant_string(p):
+def p_expression_constant_string(p):
     'constant : STRING'
     p[0] = tree.Constant(p[1])
 
-def p_obtainment_constant_as_expression(p):
+def p_expression_from_constant(p):
     'expression : constant'
     p[0] = p[1]
 
-def p_obtainment_attribute(p):
+def p_expression_attribute(p):
     'expression : expression "." NAME'
     p[0] = tree.Attribute(p[1], p[3])
 
-def p_obtainment_alias_value(p):
+def p_expression_alias_value(p):
     'expression : reference_alias'
     p[0] = tree.AliasValue(p[1])
 
-def p_obtainment_parameter_value(p):
+def p_expression_parameter_value(p):
     'expression : reference_parameter'
     p[0] = tree.ParameterValue(p[1])
 
-def p_obtainment_kwarg_assignment_set(p):
+def p_expression_kwarg_assignment_set(p):
     '''
         kwarg_assignment_set : kwarg_assignment
         kwarg_assignment_set : kwarg_assignment ',' kwarg_assignment_set
@@ -90,7 +90,7 @@ def p_obtainment_kwarg_assignment_set(p):
     if len(p) == 4:
         p[0] += p[3]
 
-def p_obtainment_function_call(p):
+def p_expression_function_call(p):
     '''
         expression : NAME "(" kwarg_assignment_set ")"
         expression : NAME "(" empty ")"

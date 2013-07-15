@@ -14,11 +14,6 @@ def node_set(node):
 
 
 @pytest.fixture(scope='module')
-def expression():
-    return tree.Expression._create(tuple())
-
-
-@pytest.fixture(scope='module')
 def reference():
     return tree.Reference('reference_name')
 
@@ -26,6 +21,11 @@ def reference():
 @pytest.fixture(scope='module')
 def definition():
     return tree.Definition._create(tuple())
+
+
+@pytest.fixture(scope='module')
+def expression():
+    return tree.Expression._create(tuple())
 
 
 @pytest.fixture(scope='module')
@@ -46,11 +46,6 @@ def predicate_b():
 @pytest.fixture(scope='module')
 def predicate_c():
     return tree.Predicate._create('c')
-
-
-@pytest.fixture(scope='module')
-def obtainment():
-    return tree.Obtainment._create(tuple())
 
 
 @pytest.fixture(scope='module')
@@ -104,6 +99,36 @@ def kwarg_assignment(kwarg, expression):
 
 
 @pytest.fixture(scope='module')
+def constant():
+    return tree.Constant('constant')
+
+
+@pytest.fixture(scope='module')
+def attribute(expression):
+    return tree.Attribute(expression, 'attribute_name')
+
+
+@pytest.fixture(scope='module')
+def alias_value(alias):
+    return tree.AliasValue(alias)
+
+
+@pytest.fixture(scope='module')
+def parameter_value(parameter):
+    return tree.ParameterValue(parameter)
+
+
+@pytest.fixture(scope='module')
+def function_call(kwarg_assignment):
+    return tree.FunctionCall('func_name', kwarg_assignment)
+
+
+@pytest.fixture(scope='module')
+def verity(predicate):
+    return tree.Verity(predicate)
+
+
+@pytest.fixture(scope='module')
 def bool_true():
     return tree.TRUE()
 
@@ -146,36 +171,6 @@ def sequence_accordance(request, iteration, predicate):
 @pytest.fixture(scope='module')
 def check_value(expression):
     return tree.CheckValue(expression)
-
-
-@pytest.fixture(scope='module')
-def constant():
-    return tree.Constant('constant')
-
-
-@pytest.fixture(scope='module')
-def attribute(expression):
-    return tree.Attribute(expression, 'attribute_name')
-
-
-@pytest.fixture(scope='module')
-def alias_value(alias):
-    return tree.AliasValue(alias)
-
-
-@pytest.fixture(scope='module')
-def parameter_value(parameter):
-    return tree.ParameterValue(parameter)
-
-
-@pytest.fixture(scope='module')
-def function_call(kwarg_assignment):
-    return tree.FunctionCall('func_name', kwarg_assignment)
-
-
-@pytest.fixture(scope='module')
-def verity(predicate):
-    return tree.Verity(predicate)
 
 
 @pytest.fixture(scope='module')

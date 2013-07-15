@@ -1,7 +1,7 @@
-from .__external__ import NodeSet, Obtainment, KwargAssignment
+from .__external__ import NodeSet, Expression, KwargAssignment
 
 
-class FunctionCall(Obtainment):
+class FunctionCall(Expression):
     __fields__ = ('name', 'kwarg_assignment_set')
 
 

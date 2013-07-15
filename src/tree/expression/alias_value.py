@@ -1,7 +1,7 @@
-from .__external__ import Obtainment, Alias
+from .__external__ import Expression, Alias
 
 
-class AliasValue(Obtainment):
+class AliasValue(Expression):
     __fields__ = ('alias',)
 
 

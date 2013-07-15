@@ -1,7 +1,7 @@
-from .__external__ import Obtainment, Parameter
+from .__external__ import Expression, Parameter
 
 
-class ParameterValue(Obtainment):
+class ParameterValue(Expression):
     __fields__ = ('parameter',)
 
 

@@ -1,7 +1,7 @@
-from .__external__ import Obtainment, Predicate
+from .__external__ import Expression, Predicate
 
 
-class Verity(Obtainment):
+class Verity(Expression):
     __fields__ = ('predicate',)
 
 

@@ -1,7 +1,7 @@
-from .__external__ import Expression, Obtainment
+from .__external__ import Expression
 
 
-class Attribute(Obtainment):
+class Attribute(Expression):
     __fields__ = ('expression', 'name')
 
 

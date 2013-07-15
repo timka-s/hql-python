@@ -8,7 +8,7 @@ from .python_lambda import PythonLambda
 def completeness_skip_set():
     return frozenset([
         'Node', 'NodeSet',
-        'Expression', 'Reference', 'Definition', 'Obtainment', 'Predicate',
+        'Reference', 'Definition', 'Expression', 'Predicate',
             'Statement', 'Query',
         'Alias', 'Parameter', 'Field', 'Kwarg',
         'AliasAssignment', 'Iteration', 'FieldAssignment',
