@@ -1,20 +1,20 @@
 reserved = {
     'get': 'GET',
     'use': 'USE',
-    'if': 'IF',
+    'when': 'WHEN',
 
     'as': 'AS',
-    'in': 'IN',
+    'from': 'FROM',
 
     'any': 'QUANTIFIER',
-    'all': 'QUANTIFIER',
+    'each': 'QUANTIFIER',
 
     'true': 'TRUE',
     'false': 'FALSE',
     'not': 'NOT',
     'and': 'AND',
     'or': 'OR',
-    'is': 'IS'
+    'accord': 'ACCORD'
 }
 
 t_AND = r'\&\&'

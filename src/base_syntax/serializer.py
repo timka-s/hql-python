@@ -29,7 +29,7 @@ class Serializer(Visitor):
         alias = self.visit(node.alias)
         expression = self.visit(node.expression)
 
-        return '%s IN %s' % (alias, expression)
+        return '%s FROM %s' % (alias, expression)
 
 
     def visit_FieldAssignment(self, node):
@@ -127,14 +127,15 @@ class Serializer(Visitor):
         alias_assignment = self.visit(node.alias_assignment)
         predicate = self.visit(node.predicate)
 
-        return '(%s IS %s)' % (alias_assignment, predicate)
+        return '(%s ACCORD %s)' % (alias_assignment, predicate)
 
 
     def visit_SequenceAccordance(self, node):
         iteration = self.visit(node.iteration)
         predicate = self.visit(node.predicate)
 
-        return '(%s %s IS %s)' % (node.quantifier.upper(), iteration, predicate)
+        return '(%s %s ACCORD %s)' % (
+            node.quantifier.upper(), iteration, predicate)
 
 
     def visit_CheckValue(self, node):
@@ -144,7 +145,7 @@ class Serializer(Visitor):
 
 
     def visit_Condition(self, node):
-        return 'IF %s\n' % self.visit(node.predicate)
+        return 'WHEN %s\n' % self.visit(node.predicate)
 
 
     def visit_Source(self, node):

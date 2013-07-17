@@ -24,7 +24,7 @@ def test_constructor_error_iteration(predicate):
 
 def test_constructor_error_predicate(iteration):
     with pytest.raises(TypeError):
-        SequenceAccordance('all', iteration, ...,)
+        SequenceAccordance('each', iteration, ...,)
 
 
 def test_str(instance):

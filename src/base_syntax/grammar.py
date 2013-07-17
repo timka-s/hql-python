@@ -7,7 +7,7 @@ tokens = lexis.tokens
 precedence = (
     ('right', '='),
     ('right', 'QUANTIFIER'),
-    ('left', 'IS', 'AS', 'IN'),
+    ('left', 'ACCORD', 'AS', 'FROM'),
     ('left', 'AND', 'OR'),
     ('left', 'COMPARE_TYPE'),
     ('right', 'NOT'),
@@ -40,7 +40,7 @@ def p_definition_alias_assignment(p):
     p[0] = tree.AliasAssignment(p[1], p[3])
 
 def p_definition_iteration(p):
-    'iteration : identifier_alias IN expression'
+    'iteration : identifier_alias FROM expression'
     p[0] = tree.Iteration(p[1], p[3])
 
 def p_definition_field_assignment(p):
@@ -130,11 +130,11 @@ def p_predicate_compare(p):
     p[0] = tree.Compare(p[2], p[1], p[3])
 
 def p_predicate_data_accordance(p):
-    'predicate : alias_assignment IS predicate'
+    'predicate : alias_assignment ACCORD predicate'
     p[0] = tree.DataAccordance(p[1], p[3])
 
 def p_predicate_sequence_accordance(p):
-    'predicate : QUANTIFIER iteration IS predicate'
+    'predicate : QUANTIFIER iteration ACCORD predicate'
     p[0] = tree.SequenceAccordance(p[1].lower(), p[2], p[4])
 
 def p_predicate_check_value(p):
@@ -146,7 +146,7 @@ def p_predicate_with_round_brackets(p):
     p[0] = p[2]
 
 def p_statement_condition(p):
-    'condition : IF predicate'
+    'condition : WHEN predicate'
     p[0] = tree.Condition(p[2])
 
 def p_statement_field_assignment_set(p):

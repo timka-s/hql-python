@@ -49,7 +49,7 @@ def completeness_node():
         ),
         tree.Condition(
             tree.SequenceAccordance(
-                'all',
+                'each',
                 tree.Iteration(
                     tree.Alias('items__row__attr_seq'),
                     tree.Attribute(

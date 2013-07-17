@@ -141,7 +141,7 @@ class PythonLambda(Visitor):
 
     _quantifier_operators = {
         'any': any,
-        'all': all
+        'each': all
     }
 
 

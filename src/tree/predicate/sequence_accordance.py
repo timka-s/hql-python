@@ -3,7 +3,7 @@ from .__external__ import Predicate, Iteration
 
 class SequenceAccordance(Predicate):
     __fields__ = ('quantifier', 'iteration', 'predicate')
-    __quantifiers__ = ('any', 'all')
+    __quantifiers__ = ('any', 'each')
 
 
     def __new__(cls, quantifier, iteration, predicate):
