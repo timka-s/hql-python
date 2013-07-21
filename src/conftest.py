@@ -15,6 +15,13 @@ def tester_visitor_completeness():
             if isinstance(value, type) and issubclass(value, base_cls)
         ]
 
+        not_presents = [
+            cls_name for cls_name in skip_set
+            if not hasattr(tree, cls_name)
+        ]
+
+        assert len(not_presents) == 0
+
         must_implement = [
             cls_name for cls_name in can_implement
             if cls_name not in skip_set
