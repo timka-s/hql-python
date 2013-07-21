@@ -16,10 +16,10 @@ def completeness_string():
             field_one = @row_a.attr
             field_two = @row_b.attr
             field_three = {TRUE}
-        USE
-            @row_a FROM %input_seq_a
+        USING SUCH COMBINATION
+            SUCH @row_a FROM %input_seq_a WHERE @row_a.field > 22
             @row_b FROM %input_seq_b
-        WHEN
+        WHERE
             @row_a.parent_id == @row_b.id
             AND EACH @item FROM @row.seq ACCORD (
                 @item.text AS @text ACCORD (
@@ -34,9 +34,8 @@ def completeness_string():
 
 @pytest.fixture(scope='module', params=[
     'GET field_one = 2',
-    'GET field_one = @item USE @item FROM %seq',
-    'GET field_one = %seq WHEN EACH @item FROM %seq ACCORD @item > 1',
-    'GET field_one = @item USE @item FROM %seq WHEN @item > 1',
+    'GET field_one = @item USING @item FROM %seq',
+    'GET field_one = @item USING SUCH @item FROM %seq WHERE @item > 1',
     'GET field_one = eq(a=2,b=3)',
     'GET field_one = abs(value=2)',
     'GET field_one = rand()'

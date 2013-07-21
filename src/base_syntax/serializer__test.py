@@ -9,7 +9,7 @@ def completeness_skip_set():
     return frozenset([
         'Node', 'NodeSet',
         'Identifier', 'Definition', 'Expression', 'Predicate',
-            'Statement', 'Query',
+            'Source', 'Statement', 'Query',
     ])
 
 
@@ -33,61 +33,79 @@ def completeness_node():
                 )
             ),
         ),
-        tree.Source(
-            tree.Iteration(
-                tree.Alias('items__row'),
-                tree.FunctionCall(
-                    'ds',
-                    tree.KwargAssignment(
-                        tree.Kwarg('name'),
-                        tree.ParameterValue(
-                            tree.Parameter('ds_name')
+        tree.Input(
+            tree.Filter(
+                tree.Combination(
+                    tree.Origin(
+                        tree.Iteration(
+                            tree.Alias('items__row'),
+                            tree.FunctionCall(
+                                'ds',
+                                tree.KwargAssignment(
+                                    tree.Kwarg('name'),
+                                    tree.ParameterValue(
+                                        tree.Parameter('ds_name')
+                                    )
+                                )
+                            )
+                        )
+                    ),
+                    tree.Origin(
+                        tree.Iteration(
+                            tree.Alias('items__row_two'),
+                            tree.FunctionCall(
+                                'ds',
+                                tree.KwargAssignment(
+                                    tree.Kwarg('name'),
+                                    tree.ParameterValue(
+                                        tree.Parameter('ds_name')
+                                    )
+                                )
+                            )
                         )
                     )
-                )
-            )
-        ),
-        tree.Condition(
-            tree.SequenceAccordance(
-                'each',
-                tree.Iteration(
-                    tree.Alias('items__row__attr_seq'),
-                    tree.Attribute(
-                        tree.AliasValue(
-                            tree.Alias('items__row')
-                        ),
-                        'attr_seq'
-                    )
                 ),
-                tree.DataAccordance(
-                    tree.AliasAssignment(
+                tree.SequenceAccordance(
+                    'each',
+                    tree.Iteration(
+                        tree.Alias('items__row__attr_seq'),
                         tree.Attribute(
                             tree.AliasValue(
-                                tree.Alias('items__row__attr_seq')
+                                tree.Alias('items__row')
                             ),
-                            'text'
-                        ),
-                        tree.Alias('items__row__attr_seq__text')
+                            'attr_seq'
+                        )
                     ),
-                    tree.And(
-                        tree.CheckValue(
-                            tree.Constant(321)
+                    tree.DataAccordance(
+                        tree.AliasAssignment(
+                            tree.Attribute(
+                                tree.AliasValue(
+                                    tree.Alias('items__row__attr_seq')
+                                ),
+                                'text'
+                            ),
+                            tree.Alias('items__row__attr_seq__text')
                         ),
-                        tree.Or(
-                            tree.FALSE(),
+                        tree.And(
+                            tree.CheckValue(
+                                tree.Constant(321)
+                            ),
+                            tree.Or(
+                                tree.FALSE(),
+                                tree.Compare(
+                                    '!=',
+                                    tree.Constant(321),
+                                    tree.Constant(123)
+                                ),
+                            ),
+                            tree.Not(tree.FALSE()),
                             tree.Compare(
-                                '!=',
-                                tree.Constant(321),
-                                tree.Constant(123)
-                            ),
-                        ),
-                        tree.Not(tree.FALSE()),
-                        tree.Compare(
-                            '==',
-                            tree.AliasValue(
-                                tree.Alias('items__row__attr_seq__text')
-                            ),
-                            tree.Constant('items.attr_seq.text.value')
+                                '==',
+                                tree.AliasValue(
+                                    tree.Alias('items__row__attr_seq__text')
+                                ),
+                                tree.Constant('items.attr_seq.text.value')
+                            )
                         )
                     )
                 )

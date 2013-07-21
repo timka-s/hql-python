@@ -1,7 +1,10 @@
 reserved = {
     'get': 'GET',
-    'use': 'USE',
-    'when': 'WHEN',
+    'using': 'USING',
+
+    'such': 'SUCH',
+    'where': 'WHERE',
+    'combination': 'COMBINATION',
 
     'as': 'AS',
     'from': 'FROM',

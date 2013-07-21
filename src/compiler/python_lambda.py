@@ -1,4 +1,5 @@
 import operator
+from itertools import product, chain
 
 from .__external__ import Visitor
 
@@ -171,21 +172,46 @@ class PythonLambda(Visitor):
             bool(output(parameter_map, alias_map))
 
 
-    def visit_Condition(self, node):
-        return self.visit(node.predicate)
-
-
-    def visit_Source(self, node):
-        if len(node.iteration_set) != 1:
-            raise NotImplementedError
-
-        key = node.iteration_set[0].alias.name
-        data_output = self.visit(node.iteration_set[0].expression)
+    def visit_Origin(self, node):
+        key = node.iteration.alias.name
+        data_output = self.visit(node.iteration.expression)
 
         return lambda parameter_map, alias_map: \
             (
                 dict(alias_map, **{key: data})
                 for data in data_output(parameter_map, alias_map)
+            )
+
+
+    def visit_Filter(self, node):
+        source_output = self.visit(node.source)
+        predicate_output = self.visit(node.predicate)
+
+        return lambda parameter_map, alias_map: \
+            (
+                new_alias_map
+                for new_alias_map in source_output(parameter_map, alias_map)
+                if predicate_output(parameter_map, new_alias_map)
+            )
+
+
+    def visit_Combination(self, node):
+        source_set_output = [
+            self.visit(source)
+            for source in node.source_set
+        ]
+
+        return lambda parameter_map, alias_map: \
+            (
+                dict(
+                    chain.from_iterable(
+                        el.items() for el in combination
+                    )
+                )
+                for combination in product(*(
+                    source_output(parameter_map, alias_map)
+                    for source_output in source_set_output
+                ))
             )
 
 
@@ -205,20 +231,19 @@ class PythonLambda(Visitor):
             })
 
 
+    def visit_Input(self, node):
+        return self.visit(node.source)
+
+
     def visit_Select(self, node):
         declaration_output = self.visit(node.declaration)
 
-        source_output = \
-            self.visit(node.source) if node.source is not None \
-            else lambda parameter_map, alias_map: None
-
-        condition_output = \
-            self.visit(node.condition) if node.condition is not None \
-            else lambda parameter_map, alias_map: True
+        input_output = \
+            self.visit(node.input) if node.input is not None \
+            else lambda parameter_map, alias_map: alias_map
 
         return lambda parameter_map: \
             [
                 declaration_output(parameter_map, alias_map)
-                for alias_map in source_output(parameter_map, {})
-                if condition_output(parameter_map, alias_map)
+                for alias_map in input_output(parameter_map, {})
             ]

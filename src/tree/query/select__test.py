@@ -16,19 +16,14 @@ def test_constructor_ok_just_declaration(declaration):
     assert isinstance(Select(declaration), Select)
 
 
-def test_constructor_error_declaration(source, condition):
+def test_constructor_error_declaration(input):
     with pytest.raises(TypeError):
-        Select(..., source, condition)
+        Select(..., input)
 
 
-def test_constructor_error_source(declaration, condition):
+def test_constructor_error_input(declaration):
     with pytest.raises(TypeError):
-        Select(declaration, ..., condition)
-
-
-def test_constructor_error_condition(declaration, source):
-    with pytest.raises(TypeError):
-        Select(declaration, source, ...)
+        Select(declaration, ...)
 
 
 def test_str(instance):

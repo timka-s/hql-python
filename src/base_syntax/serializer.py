@@ -144,17 +144,24 @@ class Serializer(Visitor):
         return '{%s}' % (expression)
 
 
-    def visit_Condition(self, node):
-        return 'WHEN %s\n' % self.visit(node.predicate)
+    def visit_Origin(self, node):
+        return self.visit(node.iteration)
 
 
-    def visit_Source(self, node):
-        iteration_set = '\n    '.join(
-            self.visit(iteration).replace('\n', '\n        ')
-            for iteration in node.iteration_set
+    def visit_Filter(self, node):
+        source = self.visit(node.source)
+        predicate = self.visit(node.predicate)
+
+        return 'SUCH %s\nWHERE %s' % (source, predicate)
+
+
+    def visit_Combination(self, node):
+        source_set = '\n    '.join(
+            self.visit(source).replace('\n', '\n        ')
+            for source in node.source_set
         )
 
-        return 'USE\n    %s\n' % iteration_set
+        return 'COMBINATION\n    %s' % source_set
 
 
     def visit_Declaration(self, node):
@@ -166,14 +173,17 @@ class Serializer(Visitor):
         return 'GET\n    %s\n' % field_assignment_set
 
 
+    def visit_Input(self, node):
+        source = self.visit(node.source)
+
+        return 'USING %s\n' % source
+
+
     def visit_Select(self, node):
         def prepare():
             yield self.visit(node.declaration)
 
-            if node.source:
-                yield self.visit(node.source)
-
-            if node.condition:
-                yield self.visit(node.condition)
+            if node.input:
+                yield self.visit(node.input)
 
         return ''.join(prepare())

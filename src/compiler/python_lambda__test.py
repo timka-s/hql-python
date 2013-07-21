@@ -9,7 +9,7 @@ def completeness_skip_set():
     return frozenset([
         'Node', 'NodeSet',
         'Identifier', 'Definition', 'Expression', 'Predicate',
-            'Statement', 'Query',
+            'Source', 'Statement', 'Query',
         'Alias', 'Parameter', 'Field', 'Kwarg',
         'AliasAssignment', 'Iteration', 'FieldAssignment',
             'KwargAssignment',
@@ -51,55 +51,76 @@ def completeness_env():
                 )
             ),
         ),
-        tree.Source(
-            tree.Iteration(
-                tree.Alias('items__row'),
-                tree.ParameterValue(
-                    tree.Parameter('items')
-                )
-            )
-        ),
-        tree.Condition(
-            tree.SequenceAccordance(
-                'each',
-                tree.Iteration(
-                    tree.Alias('items__row__attr_seq'),
-                    tree.Attribute(
-                        tree.AliasValue(
-                            tree.Alias('items__row')
+        tree.Input(
+            tree.Filter(
+                tree.Combination(
+                    tree.Origin(
+                        tree.Iteration(
+                            tree.Alias('items__row'),
+                            tree.ParameterValue(
+                                tree.Parameter('items')
+                            )
+                        )
+                    ),
+                    tree.Filter(
+                        tree.Origin(
+                            tree.Iteration(
+                                tree.Alias('numbers__row'),
+                                tree.ParameterValue(
+                                    tree.Parameter('numbers')
+                                )
+                            )
                         ),
-                        'attr_seq'
+                        tree.Compare(
+                            '>',
+                            tree.AliasValue(
+                                tree.Alias('numbers__row')
+                            ),
+                            tree.Constant(2)
+                        )
                     )
                 ),
-                tree.DataAccordance(
-                    tree.AliasAssignment(
+                tree.SequenceAccordance(
+                    'each',
+                    tree.Iteration(
+                        tree.Alias('items__row__attr_seq'),
                         tree.Attribute(
                             tree.AliasValue(
-                                tree.Alias('items__row__attr_seq')
+                                tree.Alias('items__row')
                             ),
-                            'text'
-                        ),
-                        tree.Alias('items__row__attr_seq__text')
+                            'attr_seq'
+                        )
                     ),
-                    tree.And(
-                        tree.CheckValue(
-                            tree.Constant('some_string')
+                    tree.DataAccordance(
+                        tree.AliasAssignment(
+                            tree.Attribute(
+                                tree.AliasValue(
+                                    tree.Alias('items__row__attr_seq')
+                                ),
+                                'text'
+                            ),
+                            tree.Alias('items__row__attr_seq__text')
                         ),
-                        tree.Or(
-                            tree.FALSE(),
+                        tree.And(
+                            tree.CheckValue(
+                                tree.Constant('some_string')
+                            ),
+                            tree.Or(
+                                tree.FALSE(),
+                                tree.Compare(
+                                    '!=',
+                                    tree.Constant(321),
+                                    tree.Constant(123)
+                                ),
+                            ),
+                            tree.Not(tree.FALSE()),
                             tree.Compare(
-                                '!=',
-                                tree.Constant(321),
-                                tree.Constant(123)
-                            ),
-                        ),
-                        tree.Not(tree.FALSE()),
-                        tree.Compare(
-                            '==',
-                            tree.AliasValue(
-                                tree.Alias('items__row__attr_seq__text')
-                            ),
-                            tree.Constant('items.attr_seq.text.value')
+                                '==',
+                                tree.AliasValue(
+                                    tree.Alias('items__row__attr_seq__text')
+                                ),
+                                tree.Constant('items.attr_seq.text.value')
+                            )
                         )
                     )
                 )
@@ -110,6 +131,7 @@ def completeness_env():
     SN = PythonLambda.Record
 
     parameters = {
+        'numbers': [1, 2, 3, 4],
         'items': [
             SN({
                 'attr_one': 'some_text',
@@ -128,6 +150,7 @@ def completeness_env():
     }
 
     result = [
+        SN({'field_one': 'some_text', 'field_two': True, 'field_three': True}),
         SN({'field_one': 'some_text', 'field_two': True, 'field_three': True})
     ]
 
@@ -158,11 +181,6 @@ def test_visit_Compare_error_unknown_comparison():
 def test_visit_SequenceAccordance_error_unknown_quantifier():
     with pytest.raises(NotImplementedError):
         PythonLambda(tree.SequenceAccordance._create([..., ..., ...]))
-
-
-def test_visit_Source_error_many_iterators():
-    with pytest.raises(NotImplementedError):
-        PythonLambda(tree.Source._create([[..., ...]]))
 
 
 def test_visit_FunctionCall_error_unknown_name():

@@ -1,18 +1,15 @@
-from .__external__ import Query, Condition, Source, Declaration
+from .__external__ import Query, Declaration, Input
 
 
 class Select(Query):
-    __fields__ = ('declaration', 'source', 'condition')
+    __fields__ = ('declaration', 'input')
 
 
-    def __new__(cls, declaration, source=None, condition=None):
+    def __new__(cls, declaration, input=None):
         if not isinstance(declaration, Declaration):
             raise TypeError
 
-        if not isinstance(source, Source) and source is not None:
+        if not isinstance(input, Input) and input is not None:
             raise TypeError
 
-        if not isinstance(condition, Condition) and condition is not None:
-            raise TypeError
-
-        return cls._make(declaration, source, condition)
+        return cls._make(declaration, input)

@@ -49,6 +49,11 @@ def predicate_c():
 
 
 @pytest.fixture(scope='module')
+def source():
+    return tree.Source._create(tuple())
+
+
+@pytest.fixture(scope='module')
 def statement():
     return tree.Statement._create(tuple())
 
@@ -174,13 +179,18 @@ def check_value(expression):
 
 
 @pytest.fixture(scope='module')
-def condition(predicate):
-    return tree.Condition(predicate)
+def origin(iteration):
+    return tree.Origin(iteration)
 
 
 @pytest.fixture(scope='module')
-def source(iteration):
-    return tree.Source(iteration)
+def filter(source, predicate):
+    return tree.Filter(source, predicate)
+
+
+@pytest.fixture(scope='module')
+def combination(source):
+    return tree.Combination(source, source)
 
 
 @pytest.fixture(scope='module')
@@ -189,5 +199,10 @@ def declaration(field_assignment):
 
 
 @pytest.fixture(scope='module')
-def select(declaration, source, condition):
-    return tree.Select(declaration, source, condition)
+def input(source):
+    return tree.Input(source)
+
+
+@pytest.fixture(scope='module')
+def select(declaration, input):
+    return tree.Select(declaration, input)

@@ -1,20 +1,20 @@
 import pytest
 
-from .condition import Condition
+from .origin import Origin
 
 
 @pytest.fixture(scope='module')
-def instance(condition):
-    return condition
+def instance(origin):
+    return origin
 
 
 def test_constructor_ok(instance):
-    assert isinstance(instance, Condition)
+    assert isinstance(instance, Origin)
 
 
-def test_constructor_error_predicate():
+def test_constructor_error_iteration():
     with pytest.raises(TypeError):
-        Condition(...)
+        Origin(...)
 
 
 def test_str(instance):

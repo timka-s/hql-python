@@ -1,2 +1,2 @@
 from ..abstract import Query
-from ..statement import Condition, Declaration, Source
+from ..statement import Declaration, Input

@@ -82,13 +82,13 @@ def p_expression_parameter_value(p):
 def p_expression_kwarg_assignment_set(p):
     '''
         kwarg_assignment_set : kwarg_assignment
-        kwarg_assignment_set : kwarg_assignment ',' kwarg_assignment_set
+        kwarg_assignment_set : kwarg_assignment_set ',' kwarg_assignment
     '''
 
-    p[0] = [p[1]]
-
     if len(p) == 4:
-        p[0] += p[3]
+        p[0] = p[1] + [p[3]]
+    else:
+        p[0] = [p[1]]
 
 def p_expression_function_call(p):
     '''
@@ -145,55 +145,55 @@ def p_predicate_with_round_brackets(p):
     'predicate : "(" predicate ")"'
     p[0] = p[2]
 
-def p_statement_condition(p):
-    'condition : WHEN predicate'
-    p[0] = tree.Condition(p[2])
+def p_source_origin(p):
+    'source : iteration'
+    p[0] = tree.Origin(p[1])
+
+def p_source_filter(p):
+    'source : SUCH source WHERE predicate'
+    p[0] = tree.Filter(p[2], p[4])
+
+def p_source_set(p):
+    '''
+        source_set : source
+        source_set : source_set source
+    '''
+
+    if len(p) == 3:
+        p[0] = p[1] + [p[2]]
+    else:
+        p[0] = [p[1]]
+
+def p_source_combination(p):
+    'source : COMBINATION source_set'
+    p[0] = tree.Combination(*p[2])
 
 def p_statement_field_assignment_set(p):
     '''
         field_assignment_set : field_assignment
-        field_assignment_set : field_assignment field_assignment_set
+        field_assignment_set : field_assignment_set field_assignment
     '''
 
-    p[0] = [p[1]]
-
     if len(p) == 3:
-        p[0] += p[2]
+        p[0] = p[1] + [p[2]]
+    else:
+        p[0] = [p[1]]
 
 def p_statement_declaration(p):
     'declaration : GET field_assignment_set'
     p[0] = tree.Declaration(*p[2])
 
-def p_statement_iteration_set(p):
-    '''
-        iteration_set : iteration
-        iteration_set : iteration iteration_set
-    '''
-
-    p[0] = [p[1]]
-
-    if len(p) == 3:
-        p[0] += p[2]
-
-def p_statement_source(p):
-    'source : USE iteration_set'
-    p[0] = tree.Source(*p[2])
+def p_statement_input(p):
+    'input : USING source'
+    p[0] = tree.Input(p[2])
 
 def p_query_select_query_only_declaration(p):
     'select_query : declaration'
-    p[0] = tree.Select(p[1], None, None)
+    p[0] = tree.Select(p[1], None)
 
-def p_query_select_query_declaration_and_source(p):
-    'select_query : declaration source'
-    p[0] = tree.Select(p[1], p[2], None)
-
-def p_query_select_query_declaration_and_condition(p):
-    'select_query : declaration condition'
-    p[0] = tree.Select(p[1], None, p[2])
-
-def p_query_select_query_full(p):
-    'select_query : declaration source condition'
-    p[0] = tree.Select(p[1], p[2], p[3])
+def p_query_select_query_declaration_and_input(p):
+    'select_query : declaration input'
+    p[0] = tree.Select(p[1], p[2])
 
 def p_error(t):
     print('\nInput string:')

@@ -2,7 +2,7 @@ from .meta_node import MetaNode
 from .node import Node
 from .node_set import NodeSet
 from .abstract import \
-    Identifier, Definition, Expression, Predicate, Statement, Query
+    Identifier, Definition, Expression, Predicate, Source, Statement, Query
 from .identifier import Alias, Parameter, Field, Kwarg
 from .definition import \
     AliasAssignment, Iteration, FieldAssignment, KwargAssignment
@@ -11,5 +11,6 @@ from .expression import \
 from .predicate import \
     TRUE, FALSE, Not, And, Or, Compare, DataAccordance, SequenceAccordance, \
     CheckValue
-from .statement import Condition, Source, Declaration
+from .source import Origin, Filter, Combination
+from .statement import Declaration, Input
 from .query import Select
