@@ -26,7 +26,7 @@ t_OR = r'\|\|'
 t_COMPARE_TYPE = r'\!=|==|>|<|>=|<='
 
 def t_NAME(t):
-    r'[_a-zA-Z][a-zA-Z_]*'
+    r'[_a-zA-Z][a-zA-Z_0-9]*'
     # Check for reserved words
     t.type = reserved.get(t.value.lower(), 'NAME')
     return t
@@ -37,8 +37,9 @@ def t_INT_NUMBER(t):
     return t
 
 def t_STRING(t):
-    r'"([^"]|(?<=\\)")*"'
-    t.value = t.value[1:-1].replace('\\"', '"')
+    r'"([^"]|\\")*"' r'|' r"'([^']|\\'')*'"
+    quote = t.value[0]
+    t.value = t.value[1:-1].replace('\\' + quote, quote)
     return t
 
 tokens = (

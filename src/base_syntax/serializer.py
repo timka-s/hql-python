@@ -81,9 +81,8 @@ class Serializer(Visitor):
 
 
     def visit_Verity(self, node):
-        predicate = self.visit(node.predicate)
+        return '{%s}' % self.visit(node.predicate)
 
-        return '{%s}' % (predicate)
 
 
     def visit_TRUE(self, node):
@@ -139,9 +138,7 @@ class Serializer(Visitor):
 
 
     def visit_CheckValue(self, node):
-        expression = self.visit(node.expression)
-
-        return '{%s}' % (expression)
+        return '{%s}' % self.visit(node.expression)
 
 
     def visit_Origin(self, node):
@@ -174,9 +171,7 @@ class Serializer(Visitor):
 
 
     def visit_Input(self, node):
-        source = self.visit(node.source)
-
-        return 'USING %s\n' % source
+        return 'USING %s\n' % self.visit(node.source)
 
 
     def visit_Select(self, node):
