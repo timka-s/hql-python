@@ -25,6 +25,11 @@ t_OR = r'\|\|'
 
 t_COMPARE_TYPE = r'\!=|==|>|<|>=|<='
 
+t_PLUS = r'\+'
+t_MINUS = r'-'
+t_TIMES = r'\*'
+t_DIVIDE = r'/'
+
 def t_NAME(t):
     r'[_a-zA-Z][a-zA-Z_0-9]*'
     # Check for reserved words
@@ -44,6 +49,7 @@ def t_STRING(t):
 
 tokens = (
     'COMPARE_TYPE',
+    'PLUS', 'MINUS', 'TIMES', 'DIVIDE',
     'NAME', 'INT_NUMBER', 'STRING',
 ) + tuple(set(reserved.values()))
 

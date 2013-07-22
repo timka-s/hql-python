@@ -70,6 +70,30 @@ class PythonLambda(Visitor):
             output(parameter_map, alias_map)
 
 
+    _arithmetic_operators = {
+        '+': operator.add,
+        '-': operator.sub,
+        '*': operator.mul,
+        '/': operator.truediv,
+    }
+
+
+    def visit_Arithmetic(self, node):
+        arithmetic_operator = self._arithmetic_operators.get(node.operator)
+
+        if not arithmetic_operator:
+            raise NotImplementedError
+
+        output_left = self.visit(node.left)
+        output_right = self.visit(node.right)
+
+        return lambda parameter_map, alias_map: \
+            arithmetic_operator(
+                output_left(parameter_map, alias_map),
+                output_right(parameter_map, alias_map)
+            )
+
+
     def visit_TRUE(self, node):
         return lambda parameter_map, alias_map: True
 

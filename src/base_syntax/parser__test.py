@@ -33,7 +33,7 @@ def completeness_string():
 
 
 @pytest.fixture(scope='module', params=[
-    'GET field_one = 2',
+    'GET field_one = -2',
     'GET field_one = @item USING @item FROM %seq',
     'GET field_one = @item USING SUCH @item FROM %seq WHERE @item > 1',
     'GET field_one = eq(a=2,b=3)',

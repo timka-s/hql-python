@@ -32,6 +32,16 @@ def completeness_node():
                     tree.TRUE()
                 )
             ),
+            tree.FieldAssignment(
+                tree.Field('num_field'),
+                tree.Arithmetic(
+                    '-',
+                    tree.AliasValue(
+                        tree.Alias('items__row')
+                    ),
+                    tree.Constant(-3)
+                )
+            ),
         ),
         tree.Input(
             tree.Filter(

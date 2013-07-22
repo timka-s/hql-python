@@ -9,6 +9,8 @@ precedence = (
     ('right', 'QUANTIFIER'),
     ('left', 'ACCORD', 'AS', 'FROM'),
     ('left', 'AND', 'OR'),
+    ('left', 'PLUS', 'MINUS'),
+    ('left', 'TIMES', 'DIVIDE'),
     ('left', 'COMPARE_TYPE'),
     ('right', 'NOT'),
     ('left', '.'),
@@ -59,6 +61,10 @@ def p_expression_constant_int(p):
     'constant : INT_NUMBER'
     p[0] = tree.Constant(p[1])
 
+def p_expression_constant_negative_int(p):
+    'constant : MINUS INT_NUMBER'
+    p[0] = tree.Constant(-p[2])
+
 def p_expression_constant_string(p):
     'constant : STRING'
     p[0] = tree.Constant(p[1])
@@ -104,6 +110,15 @@ def p_expression_function_call(p):
 def p_expression_verity(p):
     'expression : "{" predicate "}"'
     p[0] = tree.Verity(p[2])
+
+def p_expression_arithmetic(p):
+    '''
+        expression : expression PLUS expression
+        expression : expression MINUS expression
+        expression : expression TIMES expression
+        expression : expression DIVIDE expression
+    '''
+    p[0] = tree.Arithmetic(p[2], p[1], p[3])
 
 def p_predicate_true(p):
     'predicate : TRUE'

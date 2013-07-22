@@ -133,6 +133,11 @@ def verity(predicate):
     return tree.Verity(predicate)
 
 
+@pytest.fixture(scope='module', params=tree.Arithmetic.__operators__)
+def arithmetic(request, expression):
+    return tree.Arithmetic(request.param, expression, expression)
+
+
 @pytest.fixture(scope='module')
 def bool_true():
     return tree.TRUE()

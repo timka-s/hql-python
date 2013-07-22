@@ -21,6 +21,16 @@ def completeness_env():
     node = tree.Select(
         tree.Declaration(
             tree.FieldAssignment(
+                tree.Field('num_field'),
+                tree.Arithmetic(
+                    '*',
+                    tree.AliasValue(
+                        tree.Alias('numbers__row')
+                    ),
+                    tree.Constant(3)
+                )
+            ),
+            tree.FieldAssignment(
                 tree.Field('field_one'),
                 tree.Attribute(
                     tree.AliasValue(
@@ -72,7 +82,7 @@ def completeness_env():
                             )
                         ),
                         tree.Compare(
-                            '>',
+                            '<',
                             tree.AliasValue(
                                 tree.Alias('numbers__row')
                             ),
@@ -131,7 +141,7 @@ def completeness_env():
     SN = PythonLambda.Record
 
     parameters = {
-        'numbers': [1, 2, 3, 4],
+        'numbers': [-1, 1, 2, 3, 4],
         'items': [
             SN({
                 'attr_one': 'some_text',
@@ -150,8 +160,18 @@ def completeness_env():
     }
 
     result = [
-        SN({'field_one': 'some_text', 'field_two': True, 'field_three': True}),
-        SN({'field_one': 'some_text', 'field_two': True, 'field_three': True})
+        SN({
+            'num_field': -3,
+            'field_one': 'some_text',
+            'field_two': True,
+            'field_three': True
+        }),
+        SN({
+            'num_field': 3,
+            'field_one': 'some_text',
+            'field_two': True,
+            'field_three': True
+        })
     ]
 
     return node, parameters, result
@@ -171,6 +191,11 @@ def test_realization(completeness_env):
     visitor = PythonLambda(node)
 
     assert str(visitor.output(parameters)) == str(result)
+
+
+def test_visit_Arithmetic_error_unknown_operator():
+    with pytest.raises(NotImplementedError):
+        PythonLambda(tree.Arithmetic._create([..., ..., ...]))
 
 
 def test_visit_Compare_error_unknown_comparison():

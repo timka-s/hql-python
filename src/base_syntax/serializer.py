@@ -84,6 +84,12 @@ class Serializer(Visitor):
         return '{%s}' % self.visit(node.predicate)
 
 
+    def visit_Arithmetic(self, node):
+        left = self.visit(node.left)
+        right = self.visit(node.right)
+
+        return '(%s %s %s)' % (left, node.operator, right)
+
 
     def visit_TRUE(self, node):
         return 'TRUE'
