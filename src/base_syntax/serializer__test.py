@@ -60,15 +60,25 @@ def completeness_node():
                             )
                         )
                     ),
-                    tree.Origin(
-                        tree.Iteration(
-                            tree.Alias('items__row_two'),
-                            tree.FunctionCall(
-                                'ds',
-                                tree.KwargAssignment(
-                                    tree.Kwarg('name'),
-                                    tree.ParameterValue(
-                                        tree.Parameter('ds_name')
+                    tree.Addition(
+                        tree.Origin(
+                            tree.Iteration(
+                                tree.Alias('some_seq__row'),
+                                tree.ParameterValue(
+                                    tree.Parameter('some_seq')
+                                )
+                            )
+                        ),
+                        tree.Origin(
+                            tree.Iteration(
+                                tree.Alias('items__row_two'),
+                                tree.FunctionCall(
+                                    'ds',
+                                    tree.KwargAssignment(
+                                        tree.Kwarg('name'),
+                                        tree.ParameterValue(
+                                            tree.Parameter('ds_name')
+                                        )
                                     )
                                 )
                             )

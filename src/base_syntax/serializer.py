@@ -167,6 +167,15 @@ class Serializer(Visitor):
         return 'COMBINATION\n    %s' % source_set
 
 
+    def visit_Addition(self, node):
+        source_set = '\n    '.join(
+            self.visit(source).replace('\n', '\n        ')
+            for source in node.source_set
+        )
+
+        return 'ADDITION\n    %s' % source_set
+
+
     def visit_Declaration(self, node):
         field_assignment_set = '\n    '.join(
             self.visit(field_assignment).replace('\n', '\n        ')

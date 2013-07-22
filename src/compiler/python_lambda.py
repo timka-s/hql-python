@@ -232,11 +232,31 @@ class PythonLambda(Visitor):
                         el.items() for el in combination
                     )
                 )
-                for combination in product(*(
+                for combination in product(*tuple(
                     source_output(parameter_map, alias_map)
                     for source_output in source_set_output
                 ))
             )
+
+
+    def visit_Addition(self, node):
+        source_set_output = [
+            self.visit(source)
+            for source in node.source_set
+        ]
+
+        def parse(parameter_map, alias_map):
+            new_alias_map_set = [alias_map]
+
+            for source_output in source_set_output:
+                new_alias_map_set = tuple(chain.from_iterable(
+                    source_output(parameter_map, new_alias_map)
+                    for new_alias_map in new_alias_map_set
+                ))
+
+            return new_alias_map_set
+
+        return parse
 
 
     def visit_Declaration(self, node):

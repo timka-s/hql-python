@@ -183,6 +183,10 @@ def p_source_combination(p):
     'source : COMBINATION source_set'
     p[0] = tree.Combination(*p[2])
 
+def p_source_addition(p):
+    'source : ADDITION source_set'
+    p[0] = tree.Addition(*p[2])
+
 def p_statement_field_assignment_set(p):
     '''
         field_assignment_set : field_assignment

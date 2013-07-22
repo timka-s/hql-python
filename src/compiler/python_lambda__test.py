@@ -73,20 +73,41 @@ def completeness_env():
                         )
                     ),
                     tree.Filter(
-                        tree.Origin(
-                            tree.Iteration(
-                                tree.Alias('numbers__row'),
-                                tree.ParameterValue(
-                                    tree.Parameter('numbers')
+                        tree.Addition(
+                            tree.Origin(
+                                tree.Iteration(
+                                    tree.Alias('numbers__row'),
+                                    tree.ParameterValue(
+                                        tree.Parameter('numbers')
+                                    )
+                                )
+                            ),
+                            tree.Origin(
+                                tree.Iteration(
+                                    tree.Alias('numbers2__row'),
+                                    tree.Arithmetic(
+                                        '+',
+                                        tree.Constant([100]),
+                                        tree.Constant([200])
+                                    )
                                 )
                             )
                         ),
-                        tree.Compare(
-                            '<',
-                            tree.AliasValue(
-                                tree.Alias('numbers__row')
+                        tree.And(
+                            tree.Compare(
+                                '<',
+                                tree.AliasValue(
+                                    tree.Alias('numbers__row')
+                                ),
+                                tree.Constant(2)
                             ),
-                            tree.Constant(2)
+                            tree.Compare(
+                                '==',
+                                tree.AliasValue(
+                                    tree.Alias('numbers2__row')
+                                ),
+                                tree.Constant(100)
+                            )
                         )
                     )
                 ),

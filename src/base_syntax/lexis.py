@@ -5,6 +5,7 @@ reserved = {
     'such': 'SUCH',
     'where': 'WHERE',
     'combination': 'COMBINATION',
+    'addition': 'ADDITION',
 
     'as': 'AS',
     'from': 'FROM',

@@ -199,6 +199,11 @@ def combination(source):
 
 
 @pytest.fixture(scope='module')
+def addition(source):
+    return tree.Addition(source, source)
+
+
+@pytest.fixture(scope='module')
 def declaration(field_assignment):
     return tree.Declaration(field_assignment)
 

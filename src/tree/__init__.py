@@ -12,6 +12,6 @@ from .expression import \
 from .predicate import \
     TRUE, FALSE, Not, And, Or, Compare, DataAccordance, SequenceAccordance, \
     CheckValue
-from .source import Origin, Filter, Combination
+from .source import Origin, Filter, Combination, Addition
 from .statement import Declaration, Input
 from .query import Select
